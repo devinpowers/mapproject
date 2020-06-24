@@ -1,10 +1,42 @@
 import folium
+from geopy.geocoders import Nominatim
 
-# create map object (Boston)
 
-m = folium.Map(location=[42.3601, -71.0589], zoom_start=12)
+# Create Map Object
+m = folium.Map(location=[40.7128, -74.0060], zoom_start=12)
 
-# Generate Map
+tooltip = 'Click For More Info'
 
-m.save('map3.html')
+
+address_list = [["136 Church St, New York City, NY 10001,"],["562 2nd St, New York City, NY"],["4 Pennsylvania Plaza, New York, NY 10001"],
+                ['13 W 27th St, New York, NY 10001'],['45 Rockefeller Plaza, New York, NY 10111'], ['405 Lexington Ave, New York, NY 10174'], [
+                    'Lincoln Center Plaza, New York, NY 10023'] ]
+
+
+
+list_lat_long = []
+
+for address in address_list:
+    
+    geolocator = Nominatim()
+    location = geolocator.geocode(address)
+    
+    list_lat_long.append([location.latitude, location.longitude])
+
+for index in list_lat_long:
+    
+    lat, long = index
+    
+    
+    
+    folium.Marker([lat, long],
+                  popup='<strong>Location</strong>',
+                  tooltip=tooltip).add_to(m),
+    
+    
+
+# Generate map
+m.save('map.html')
+
+
 
